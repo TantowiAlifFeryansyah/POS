@@ -1,0 +1,98 @@
+<%- include('../partials/header') %>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                  <%- include('../partials/alert') %>
+
+                    <!-- Page Heading -->
+                        <h1 class="h3 mb-0 text-gray-800">Users</h1>
+                        <br>
+
+                        <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h5 class="m-0 font-weight-bold text-primary">Form add</h5>
+                        </div>
+
+                        <div class="card-body">
+                            <form action="" method="post">
+
+                                <div class="row mb-3">
+                                  <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                  <div class="col-sm-10">
+                                    <input type="email" class="form-control" 
+                                    id="email" name="email" 
+                                    placeholder="Email" required>
+                                  </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="name" class="col-sm-2 col-form-label">Name</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" class="form-control" 
+                                      id="name" name="name" 
+                                      placeholder="Name" required>
+                                    </div>
+                                  </div>
+
+                                <div class="row mb-3">
+                                  <label for="password" class="col-sm-2 col-form-label">Password</label>
+                                  <div class="col-sm-10">
+                                    <input type="password" class="form-control" 
+                                    id="password" name="password" 
+                                    placeholder="Password" required>
+                                  </div>
+                                </div>
+
+                                <fieldset class="row mb-3">
+                                  <label class="col-form-label col-sm-2 pt-0">Role</label>
+                                  <div class="col-sm-10">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" 
+                                      id="operator" name="role" value="Operator">
+                                      <label class="form-check-label" for="operator">
+                                        Operator
+                                      </label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" 
+                                      id="admin" name="role" value="Admin">
+                                      <label class="form-check-label" for="admin">
+                                        Admin
+                                      </label>
+                                    </div>
+                                  </div>
+                                </fieldset>
+                                
+                              </div>
+
+                              <div class="card-footer">
+                                <button type="submit" class="btn btn-success btn-icon-split">
+                                <span class="icon text-white-50">
+                                  <i class="fas fa-database"></i>
+                                </span>
+                                <span class="text">Save</span>
+                              </button>
+                              
+                              <a href="/users" class="btn btn-warning btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-undo"></i>
+                                </span>
+                                <span class="text">Back</span>
+                              </a>
+                                                            
+                            </form>
+                            </div>
+
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+<%- include('../partials/footer') %>
+
+

@@ -1,0 +1,129 @@
+<%- include('../partials/header') %>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                        <h1 class="h3 mb-0 text-gray-800">Goods</h1>
+                        <br>
+
+                        <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h5 class="m-0 font-weight-bold text-primary">Form add</h5>
+                        </div>
+
+                        <div class="card-body">
+                            <form action="" method="post" encType="multipart/form-data">
+
+                              <div class="row mb-3">
+                                <label for="barcode" class="col-sm-2 col-form-label">Barcode</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" id="barcode" name="barcode" 
+                                  value="<%= data.barcode %>" disabled >
+                                </div>
+                              </div>
+
+                              <div class="row mb-3">
+                                  <label for="name" class="col-sm-2 col-form-label">Name</label>
+                                  <div class="col-sm-10">
+                                     <input type="text" class="form-control" id="name" name="name" 
+                                     value="<%= data.name%>" >
+                                  </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="stock" class="col-sm-2 col-form-label">Stock</label>
+                                    <div class="col-sm-10">
+                                       <input type="number" class="form-control" id="stock" name="stock" 
+                                       value="<%= data.stock%>" >
+                                    </div>
+                                  </div>
+
+                                  <div class="row mb-3">
+                                    <label for="purchase" class="col-sm-2 col-form-label">Purchase Price</label>
+                                    <div class="col-sm-10">
+                                       <input type="text" class="form-control" id="purchaseprice" name="purchaseprice" 
+                                       value="<%= data.purchaseprice%>" >
+                                    </div>
+                                  </div>
+
+                                  <div class="row mb-3">
+                                    <label for="selling" class="col-sm-2 col-form-label">Selling Price</label>
+                                    <div class="col-sm-10">
+                                       <input type="text" class="form-control" id="sellingprice" name="sellingprice" 
+                                       value="<%= data.sellingprice%>" >
+                                    </div>
+                                  </div>
+
+                                  <div class="row mb-3">
+                                    <label for="unit" class="col-sm-2 col-form-label">Units</label>
+                                    <div class="col-sm-10">
+                                       <select type="text" class="form-control" id="unit" name="unit">
+                                       <% unitData.forEach(item => { %>
+                                        <option value="<%= item.unit %>" <%= item.unit == data.unit ? 'selected' : '' %>>
+                                          <%= item.name %> 
+                                        </option>
+                                        <% }) %>
+                                       </select>
+                                    </div>
+                                  </div>
+
+                                  <div class="row mb-3 ">
+                                    <label for="picture" class="col-sm-2 col-form-label">Picture</label>
+                                    <div class="col-sm-10">
+                                        <div class="custom-file">
+                                            <label class="custom-file-label" for="picture">Choose file</label>
+                                            <input type="file" class="custom-file-input" id="picture" name="picture">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                  <div class="row mb-3">
+                                    <label for="preview" class="col-sm-2 col-form-label">Preview</label>
+                                    <div class="col-sm-10">
+                                       <img id="previewimg" src="/images/upload/<%= data.picture %>" style="width: 300px;">
+                                    </div>
+                                  </div>
+
+                                
+                              </div>
+
+                              <div class="card-footer">
+                                <button type="submit" class="btn btn-success btn-icon-split">
+                                <span class="icon text-white-50">
+                                  <i class="fas fa-database"></i>
+                                </span>
+                                <span class="text">Save</span>
+                              </button>
+                              
+                              <a href="/goods" class="btn btn-warning btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-undo"></i>
+                                </span>
+                                <span class="text">Back</span>
+                              </a>
+                              
+                            </form>
+                            </div>
+
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <script>
+              $('#picture').change(function (event) {
+                  const [files] = picture.files
+                  if (files) {
+                    previewimg.src = URL.createObjectURL(files)
+                  }
+              })
+          </script>
+
+<%- include('../partials/footer') %>
+
+

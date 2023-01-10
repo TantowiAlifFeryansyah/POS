@@ -1,0 +1,278 @@
+<%- include('../partials/header') %>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                        <h1 class="h3 mb-0 text-gray-800">Sales</h1>
+                        <br>
+
+                        <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header">
+                            <h1 class="m-0 text-gray-550">Transaction</h1>
+                        </div>
+
+                        <!-- card transaction -->
+                          <div class="list-group list-group-flush">
+
+                            <div class="list-group-item">
+                              <form class="row">
+                                <div class="col-md-4">
+                                    <label for="invoice" class="form-label">Invoice</label>
+                                    <input type="text" class="form-control" id="invoice" name="invoice"
+                                    value="<%= sales.invoice %>" readonly>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="time" class="form-label">Time</label>
+                                    <input type="text" class="form-control" id="time" name="time"
+                                    value="<%=  moment(sales.time).format('DD MMM YYYY HH:mm:ss')%>" readonly>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="operator" class="form-label">Operator</label>
+                                    <input type="text" class="form-control" id="operator" name="operator"
+                                    value="<%= user.name %>" readonly>
+                                </div>
+                              </form>
+                              <br>
+                            </div>
+
+                            <div class="list-group-item">
+                              <form id="detail-form" class="row">
+                                  <div class="col-md-4">
+                                      <label for="goodsbarcode" class="form-label">Goods Barcode</label>
+                                      <select class="form-control" id="goodsbarcode" name="goodsbarcode">
+                                        <% goods.forEach( item=> { %>
+                                          <option value="<%= item.barcode %>">
+                                              <%= item.barcode + ' - ' + item.name%>
+                                          </option>
+                                          <% })%>
+                                      </select>
+                                  </div>
+      
+                                  <div class="col-md-4">
+                                      <label for="goodsname" class="form-label">Goods Name</label>
+                                      <input type="text" class="form-control" id="goodsname" name="goodsname"
+                                      readonly>
+                                  </div>
+      
+                                  <div class="col-md-4">
+                                      <label for="stock" class="form-label">Stock</label>
+                                      <input type="text" class="form-control" id="stock" name="stock"
+                                      readonly>
+                                  </div>
+      
+                                  <div class="col-md-4 mt-3">
+                                    <label for="sellingprice" class="form-label">Selling Price</label>
+                                    <input type="text" class="form-control" id="sellingprice" name="sellingprice">
+                                </div>
+      
+                                <div class="col-md-4 mt-3">
+                                    <label for="quantity" class="form-label">Qty</label>
+                                    <input type="text" class="form-control" id="quantity" name="quantity">
+                                </div>
+      
+                                <div class="col-md-4 mt-3">
+                                    <label for="totalprice" class="form-label">Total Price</label>
+                                    <input type="text" class="form-control" id="totalprice" name="totalprice">
+                                </div>
+      
+                                <div class="col-md-4">
+                                  <br>
+                                  <button type="submit" class="btn btn-primary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                      <i class="fas fa-plus"></i>
+                                    </span>
+                                    <span class="text">Add</span>
+                                  </button>
+                                </div>
+
+                            </form>
+                            </div>
+
+                          <form action="" method="post" id="form-purchases">
+                            <div class="list-group-item">
+                              <div class="table-responsive">
+                                <table class="table table-hover" id="detail-table" width="100%" cellspacing="0">
+                                   
+                                  <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Barcode</th>
+                                            <th>Name</th>
+                                            <th>Qty</th>
+                                            <th>Price</th>
+                                            <th>Total Price</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="table-tbody">                                    
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            </div>
+
+                            <div class="list-group-item">
+                              <div class="row mb-3">
+                                <label for="totalsummary" class="col-sm-2 col-form-label">Total Summary</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" id="totalsummary" name="totalsummary"
+                                  value="<%= sales.totalsum %>" readonly>
+                                </div>
+                              </div>
+
+                              <div class="row mb-3">
+                                <label for="pay" class="col-sm-2 col-form-label">Pay</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" id="pay" name="pay"
+                                  value="<%= sales.pay %>" required>
+                                </div>
+                              </div>
+
+                              <div class="row mb-3">
+                                <label for="change" class="col-sm-2 col-form-label">Change</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" id="change" name="change"
+                                  value="<%= sales.change %>" readonly>
+                                </div>
+                              </div>
+
+                              <div class="row mb-3">
+                                <label for="customer" class="col-sm-2 col-form-label">Customer</label>
+                                <div class="col-sm-10">
+                                  <select class="form-control" id="customer" name="customer">
+                                    <option value="" selected disable hidden required>
+                                      <%= sales.name ? sales.name : 'choose a customer'%> 
+                                    </option>
+                                    <% customers.forEach(item => {%>
+                                      <option value="<%= item.customerid%>">
+                                        <%= item.name%>
+                                      </option>
+                                      <% })%>
+                                  </select>
+                                </div>
+                              </div>
+
+                            </div>
+
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-success btn-icon-split">
+                                  <span class="icon text-white-50">
+                                      <i class="fas fa-solid fa-plus"></i>
+                                  </span>
+                                  <span class="text">Finish</span>
+                              </button>
+                            
+                              <a href="/sales" class="btn btn-warning btn-icon-split">
+                                  <span class="icon text-white-50">
+                                      <i class="fa fa-solid fa-arrow-left"></i>
+                                  </span>
+                                  <span class="text">Back</span>
+                              </a>
+
+                            </div>
+                          </form>
+
+
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <script>
+              let invoice = `<%= sales.invoice %>`
+
+              $(document).ready(function(){
+                readDetails()
+
+                $('#goodsbarcode').change(function() {
+                  const goodsbarcode = $(this).val()
+                  $.get(`/sales/goods/${goodsbarcode}`).done(function(data){
+                    $('#goodsname').val(data.name)
+                    $('#stock').val(data.stock)
+                    $('#sellingprice').val(data.sellingprice)
+                    $('#quantity').val(0)
+                    $('#totalprice').val()
+                  })
+                })
+
+                $('#quantity').keyup(function() {
+                  const quantity = $(this).val()
+                  const totalprice = $(`#sellingprice`).val()
+                    $('#totalprice').val(totalprice * quantity)
+                })
+
+                $('#pay').keyup(function() {
+                  const pay = $(this).val()
+                  const totalsummary = $(`#totalsummary`).val()
+                    $('#change').val(pay - totalsummary)
+                })
+
+
+                $('#detail-form').submit(function(e){
+                  e.preventDefault();
+                  const barcode = $('#goodsbarcode').val()
+                  const quantity = $('#quantity').val()
+                  $.post('/sales/additem',{invoice, barcode, quantity}).done(function(data){
+                      readDetails()
+                      $('#totalsummary').val(data.totalsum)
+                  })
+                })
+
+              })
+
+              const readDetails = () => {
+                $.get(`/sales/details/${invoice}`).done(function(data){
+                      let html = ''
+
+                      data.forEach((item, index) => {
+                        html += `
+                        <tr>
+                           <td> ${item.id} </td>
+                           <td> ${item.itemcode} </td>
+                           <td> ${item.name} </td>
+                           <td> ${item.quantity} </td>
+                           <td> ${currencyFormatter.format(item.sellingprice)} </td>
+                           <td> ${currencyFormatter.format(item.totalprice)} </td>
+                           <td> 
+                            <a href="#" class="btn btn-circle btn-danger" data-toggle="modal" data-target="#modalDelete${item.id}"> <i class=" fas fa-solid fa-trash"></i></a>
+
+                            <div class="modal fade" id="modalDelete${item.id}" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Deleted Confirmation</h5>
+                                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×\</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">Are you sure, you want delete it?</div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+                                                            <a class="btn btn-primary" href="/sales/deleteitems/${item.id}">Yes</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                             </td>
+                        </tr>
+                        `
+                      })
+                      $('#table-tbody').html(html)
+                    })
+              }
+
+            </script>
+
+<%- include('../partials/footer') %>
+
+
