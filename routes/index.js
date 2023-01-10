@@ -30,6 +30,7 @@ module.exports = function (db) {
 
       const user = datadb[0]
       req.session.user = user
+      delete user.password
 
       res.redirect('/dashboard')
     } catch (error) {
