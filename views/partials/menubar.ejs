@@ -17,7 +17,7 @@
 
     <!-- Nav Item - Dashboard -->
     <% if( user.role == 'Admin'){ %>
-    <li class="nav-item active">
+    <li class="nav-item <%= currentPage == 'POS - Dashboard' ? 'active' : '' %>">
         <a class="nav-link" href="/dashboard">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -34,7 +34,7 @@
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <% if( user.role == 'Admin'){ %>
-    <li class="nav-item">
+    <li class="nav-item <%= currentPage == 'POS - Goods' || currentPage == 'POS - Units' ? 'active' : '' %>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
             aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-fw fa-wrench"></i>
@@ -51,7 +51,7 @@
     </li>
     <% } %>
     
-    <li class="nav-item">
+    <li class="nav-item <%= currentPage == 'POS - Suppliers' ? 'active' : '' %>"">
       <a class="nav-link collapsed" href="/suppliers"  
           aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-link"></i>
@@ -59,7 +59,7 @@
       </a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item <%= currentPage == 'POS - Customers' ? 'active' : '' %>">
         <a class="nav-link collapsed" href="/customers"  
             aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-users"></i>
@@ -68,7 +68,7 @@
     </li>
 
     <% if(user.role == 'Admin') {%>
-    <li class="nav-item">
+    <li class="nav-item <%= currentPage == 'POS - Users' ? 'active' : '' %>">
         <a class="nav-link collapsed" href="/users" data-target="users.ejs" 
             aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-solid fa-user"></i>
@@ -86,14 +86,14 @@
     </div>
 
     <!-- Nav Item - Purchases -->
-    <li class="nav-item">
+    <li class="nav-item <%= currentPage == 'POS - Purchases' ? 'active' : '' %>">
       <a class="nav-link" href="/purchases">
           <i class="fas fa-fw fa-table"></i>
           <span>Purchases</span></a>
      </li>
 
     <!-- Nav Item - Sales -->
-    <li class="nav-item">
+    <li class="nav-item <%= currentPage == 'POS - Sales' ? 'active' : '' %>">
         <a class="nav-link" href="/sales">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Sales</span></a>

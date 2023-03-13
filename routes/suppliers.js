@@ -5,19 +5,23 @@ const { isLoggedIn } = require('../helpers/util')
 /* GET home page. */
 module.exports = function (db) {
   router.get('/', isLoggedIn, function (req, res, next) {
-    res.render('suppliers/list', {user: req.session.user, currentPage: 'POS - Suppliers'});
+    res.render('suppliers/list', { user: req.session.user, currentPage: 'POS - Suppliers' });
   });
 
   router.get('/datatable', async (req, res) => {
     let params = []
 
-    if(req.query.search.value){
-        params.push(`name ilike '%${req.query.search.value}%'`)
+    if (req.query.search.value) {
+      params.push(`name ilike '%${req.query.search.value}%'`)
     }
 
-    if(req.query.search.value){
+    if (req.query.search.value) {
       params.push(`address ilike '%${req.query.search.value}%'`)
-  }
+    }
+
+    if (req.query.search.value) {
+      params.push(`phone ilike '%${req.query.search.value}%'`)
+    }
 
     const limit = req.query.length
     const offset = req.query.start
@@ -27,18 +31,19 @@ module.exports = function (db) {
     const total = await db.query(`select count(*) as total from suppliers${params.length > 0 ? ` where ${params.join(' or ')}` : ''}`)
     const data = await db.query(`select * from suppliers${params.length > 0 ? ` where ${params.join(' or ')}` : ''} order by ${sortBy} ${sortMode} limit ${limit} offset ${offset} `)
     const response = {
-        "draw": Number(req.query.draw),
-        "recordsTotal": total.rows[0].total,
-        "recordsFiltered": total.rows[0].total,
-        "data": data.rows
-      }
+      "draw": Number(req.query.draw),
+      "recordsTotal": total.rows[0].total,
+      "recordsFiltered": total.rows[0].total,
+      "data": data.rows
+    }
     res.json(response)
-})
+  })
 
   router.get('/add', isLoggedIn, function (req, res, next) {
-    res.render('suppliers/add',{
-    user: req.session.user,
-    currentPage: 'POS - Suppliers'});
+    res.render('suppliers/add', {
+      user: req.session.user,
+      currentPage: 'POS - Suppliers'
+    });
   });
 
   router.post('/add', isLoggedIn, async function (req, res, next) {
@@ -50,21 +55,23 @@ module.exports = function (db) {
       return res.redirect('/suppliers/add')
     }
   });
-  
+
   router.get('/edit', isLoggedIn, function (req, res, next) {
-    res.render('suppliers/edit',{
+    res.render('suppliers/edit', {
       user: req.session.user,
-      currentPage: 'POS - Suppliers'});
+      currentPage: 'POS - Suppliers'
+    });
   });
 
   router.get('/edit/:supplierid', isLoggedIn, async function (req, res, next) {
     try {
       const index = req.params.supplierid
-      const {rows: dataedit} = await db.query("SELECT * FROM suppliers WHERE supplierid = $1", [index])
-      res.render('suppliers/edit',{
+      const { rows: dataedit } = await db.query("SELECT * FROM suppliers WHERE supplierid = $1", [index])
+      res.render('suppliers/edit', {
         data: dataedit[0],
         user: req.session.user,
-        currentPage: 'POS - Suppliers'})
+        currentPage: 'POS - Suppliers'
+      })
     } catch (error) {
       console.log(error);
       res.send(error)

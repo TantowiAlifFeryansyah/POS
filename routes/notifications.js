@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { isLoggedIn} = require('../helpers/util')
+const { isLoggedIn } = require('../helpers/util')
 
 /* GET home page. */
 module.exports = function (db) {
@@ -24,5 +24,5 @@ module.exports = function (db) {
         }
     });
 
-  return router;
+    return router;
 }

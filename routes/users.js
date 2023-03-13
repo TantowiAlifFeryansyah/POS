@@ -2,22 +2,22 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const { isLoggedIn , isAdmin } = require('../helpers/util')
+const { isLoggedIn, isAdmin } = require('../helpers/util')
 
 /* GET home page. */
 module.exports = function (db) {
   router.get('/', isAdmin, function (req, res, next) {
-    res.render('users/list', {user: req.session.user, currentPage: 'POS - Users'});
+    res.render('users/list', { user: req.session.user, currentPage: 'POS - Users' });
   });
 
   router.get('/datatable', async (req, res) => {
     let params = []
 
-    if(req.query.search.value){
-        params.push(`email ilike '%${req.query.search.value}%'`)
+    if (req.query.search.value) {
+      params.push(`email ilike '%${req.query.search.value}%'`)
     }
 
-    if(req.query.search.value){
+    if (req.query.search.value) {
       params.push(`name ilike '%${req.query.search.value}%'`)
     }
 
@@ -29,21 +29,21 @@ module.exports = function (db) {
     const total = await db.query(`select count(*) as total from users${params.length > 0 ? ` where ${params.join(' or ')}` : ''}`)
     const data = await db.query(`select * from users${params.length > 0 ? ` where ${params.join(' or ')}` : ''} order by ${sortBy} ${sortMode} limit ${limit} offset ${offset} `)
     const response = {
-        "draw": Number(req.query.draw),
-        "recordsTotal": total.rows[0].total,
-        "recordsFiltered": total.rows[0].total,
-        "data": data.rows
-      }
+      "draw": Number(req.query.draw),
+      "recordsTotal": total.rows[0].total,
+      "recordsFiltered": total.rows[0].total,
+      "data": data.rows
+    }
     res.json(response)
   })
 
-  router.get('/add',isAdmin, function (req, res, next) {
+  router.get('/add', isAdmin, function (req, res, next) {
     res.render('users/add', {
       user: req.session.user,
       currentPage: 'POS - Users',
       successMessage: req.flash('successMessage'),
       failureMessage: req.flash('failureMessage')
-  });
+    });
   });
 
   router.post('/add', isAdmin, async function (req, res, next) {
@@ -67,8 +67,8 @@ module.exports = function (db) {
   router.get('/edit/:userid', isAdmin, async function (req, res, next) {
     try {
       const id = req.params.userid
-      const {rows: dataedit} = await db.query("SELECT * FROM users WHERE userid = $1", [id])
-      res.render('users/edit', {data: dataedit[0], user: req.session.user, currentPage: 'POS - Users'})
+      const { rows: dataedit } = await db.query("SELECT * FROM users WHERE userid = $1", [id])
+      res.render('users/edit', { data: dataedit[0], user: req.session.user, currentPage: 'POS - Users' })
     } catch (error) {
       console.log(error);
       res.send(error)
@@ -98,8 +98,8 @@ module.exports = function (db) {
     }
   });
 
-  router.get('/profile',isLoggedIn, function (req, res, next) {
-    res.render('users/profile',{
+  router.get('/profile', isLoggedIn, function (req, res, next) {
+    res.render('users/profile', {
       user: req.session.user,
       currentPage: 'POS - Users',
       successMessage: req.flash('successMessage'),
@@ -107,13 +107,13 @@ module.exports = function (db) {
     });
   });
 
-  router.post('/profile',isLoggedIn, async function (req, res, next) {
+  router.post('/profile', isLoggedIn, async function (req, res, next) {
     try {
       const id = req.session.user.userid
       const { email, name } = req.body
       await db.query("UPDATE users SET email = $1, name = $2 WHERE userid = $3", [email, name, id])
 
-      const {rows: dataprofile} = await db.query("SELECT * FROM users WHERE email = $1", [email])
+      const { rows: dataprofile } = await db.query("SELECT * FROM users WHERE email = $1", [email])
 
       const data = dataprofile[0]
       req.session.user = data
@@ -127,7 +127,7 @@ module.exports = function (db) {
     }
   });
 
-  router.get('/changepassword',isLoggedIn, function (req, res, next) {
+  router.get('/changepassword', isLoggedIn, function (req, res, next) {
     res.render('users/changepassword', {
       user: req.session.user,
       currentPage: 'POS - Users',
@@ -136,12 +136,12 @@ module.exports = function (db) {
     });
   });
 
-  router.post('/changepassword',isLoggedIn,  async function (req, res, next) {
+  router.post('/changepassword', isLoggedIn, async function (req, res, next) {
     try {
       const id = req.session.user.userid
       const { oldpassword, newpassword, retypepassword } = req.body
 
-      const {rows: datadb} = await db.query('SELECT * FROM users where userid = $1', [id]);
+      const { rows: datadb } = await db.query('SELECT * FROM users where userid = $1', [id]);
 
 
       const passcheck = bcrypt.compareSync(oldpassword, datadb[0].password);
@@ -150,11 +150,11 @@ module.exports = function (db) {
         return res.redirect('/users/changepassword')
       }
 
-      if (newpassword != retypepassword ) {
+      if (newpassword != retypepassword) {
         req.flash('failureMessage', `Retype Password is doesn't match`)
         return res.redirect('/users/changepassword')
       }
-      
+
       const newpass = bcrypt.hashSync(newpassword, saltRounds);
       await db.query("UPDATE users SET password = $1 WHERE userid = $2", [newpass, id])
       req.flash('successMessage', `your password has been updated`)

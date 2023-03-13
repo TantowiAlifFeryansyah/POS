@@ -16,7 +16,7 @@ module.exports = function (db) {
   router.post('/', async function (req, res, next) {
     try {
       const { email, password } = req.body
-      const {rows: datadb} = await db.query('SELECT * FROM users where email = $1', [email]);
+      const { rows: datadb } = await db.query('SELECT * FROM users where email = $1', [email]);
       if (datadb.length == 0) {
         req.flash('failureMessage', 'email does not exist')
         return res.redirect('/')
@@ -39,11 +39,11 @@ module.exports = function (db) {
   });
 
   router.get('/register', function (req, res, next) {
-    res.render('register', 
-    {
-      successMessage: req.flash('successMessage'),
-      failureMessage: req.flash('failureMessage')
-    })
+    res.render('register',
+      {
+        successMessage: req.flash('successMessage'),
+        failureMessage: req.flash('failureMessage')
+      })
   });
 
   router.post('/register', async function (req, res, next) {
@@ -63,8 +63,8 @@ module.exports = function (db) {
     }
   });
 
-  router.get('/logout',isLoggedIn,function (req, res, next) {
-    req.session.destroy(function(err){
+  router.get('/logout', isLoggedIn, function (req, res, next) {
+    req.session.destroy(function (err) {
       res.redirect('/');
     })
   });

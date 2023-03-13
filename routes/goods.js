@@ -6,11 +6,11 @@ var path = require('path')
 /* GET home page. */
 module.exports = function (db) {
   router.get('/', isAdmin, function (req, res, next) {
-    res.render('goods/list', 
-    { 
-      user: req.session.user,
-      currentPage: 'POS - Goods'
-    });
+    res.render('goods/list',
+      {
+        user: req.session.user,
+        currentPage: 'POS - Goods'
+      });
   });
 
   router.get('/datatable', async (req, res) => {
@@ -22,14 +22,6 @@ module.exports = function (db) {
 
     if (req.query.search.value) {
       params.push(`unit ilike '%${req.query.search.value}%'`)
-    }
-
-    if (req.query.search.value) {
-      params.push(`purchaseprice ilike '%${req.query.search.value}%'`)
-    }
-
-    if (req.query.search.value) {
-      params.push(`sellingprice ilike '%${req.query.search.value}%'`)
     }
 
     const limit = req.query.length
@@ -51,13 +43,13 @@ module.exports = function (db) {
   router.get('/add', isAdmin, async function (req, res, next) {
     const { rows: dataUnit } = await db.query("SELECT * FROM units")
     res.render('goods/add',
-    {
-    data: dataUnit,
-    user: req.session.user,
-    currentPage: 'POS - Goods',
-    successMessage: req.flash('successMessage'),
-    failureMessage: req.flash('failureMessage')
-  });
+      {
+        data: dataUnit,
+        user: req.session.user,
+        currentPage: 'POS - Goods',
+        successMessage: req.flash('successMessage'),
+        failureMessage: req.flash('failureMessage')
+      });
   });
 
   router.post('/add', isAdmin, async function (req, res, next) {
@@ -86,7 +78,7 @@ module.exports = function (db) {
           return res.status(500).send(err);
         }
         await db.query("INSERT INTO goods(barcode, name, stock, purchaseprice, sellingprice, unit, picture) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-        [barcode, name, stock, purchaseprice, sellingprice, unit, fileName])
+          [barcode, name, stock, purchaseprice, sellingprice, unit, fileName])
         res.redirect('/goods')
       });
     } catch (error) {
@@ -101,12 +93,12 @@ module.exports = function (db) {
       const { rows: dataEdit } = await db.query("SELECT * FROM goods WHERE barcode = $1", [index])
       const { rows: dataUnit } = await db.query("SELECT * FROM units")
       res.render('goods/edit',
-      {
-      data: dataEdit[0],
-      unitData: dataUnit,
-      user: req.session.user,
-      currentPage: 'POS - Units'
-    });
+        {
+          data: dataEdit[0],
+          unitData: dataUnit,
+          user: req.session.user,
+          currentPage: 'POS - Units'
+        });
     } catch (error) {
       console.log(error);
       res.send(error)
@@ -115,28 +107,28 @@ module.exports = function (db) {
 
   router.post('/edit/:barcode', isAdmin, async function (req, res, next) {
     try {
-        const index = req.params.barcode
-        const { name, stock, purchaseprice, sellingprice, unit } = req.body
-        
-        if (!req.files || Object.keys(req.files).length === 0) {
-          await db.query("UPDATE goods SET name = $1, stock = $2, purchaseprice = $3, sellingprice = $4, unit = $5 WHERE barcode = $6",
-          [name, stock, purchaseprice, sellingprice, unit, index])
-          res.redirect('/goods')
-          return;
-        } else {
-            const uploadFile = req.files.picture;
-            const fileName = `${Date.now()}-${uploadFile.name}`
-            const uploadPath = path.join(__dirname, '..', 'public', 'images', 'upload', fileName);
+      const index = req.params.barcode
+      const { name, stock, purchaseprice, sellingprice, unit } = req.body
 
-            uploadFile.mv(uploadPath, async function (err) {
-                if (err) {
-                    return res.status(500).send(err);
-                }
-                await db.query("UPDATE goods SET name = $1, stock = $2, purchaseprice = $3, sellingprice = $4, unit = $5, picture = $6 WHERE barcode = $7",
-                [name, stock, purchaseprice, sellingprice, unit, fileName, index])
-                res.redirect('/goods')
-            })
+      if (!req.files || Object.keys(req.files).length === 0) {
+        await db.query("UPDATE goods SET name = $1, stock = $2, purchaseprice = $3, sellingprice = $4, unit = $5 WHERE barcode = $6",
+          [name, stock, purchaseprice, sellingprice, unit, index])
+        res.redirect('/goods')
+        return;
+      } else {
+        const uploadFile = req.files.picture;
+        const fileName = `${Date.now()}-${uploadFile.name}`
+        const uploadPath = path.join(__dirname, '..', 'public', 'images', 'upload', fileName);
+
+        uploadFile.mv(uploadPath, async function (err) {
+          if (err) {
+            return res.status(500).send(err);
           }
+          await db.query("UPDATE goods SET name = $1, stock = $2, purchaseprice = $3, sellingprice = $4, unit = $5, picture = $6 WHERE barcode = $7",
+            [name, stock, purchaseprice, sellingprice, unit, fileName, index])
+          res.redirect('/goods')
+        })
+      }
     } catch (error) {
       console.log(error);
       res.send(error)

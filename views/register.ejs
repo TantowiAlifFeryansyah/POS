@@ -24,58 +24,64 @@
 
 <body class="bg-gradient-primary">
 
-    <div class="container" style="padding-top: 150px;">
+    <div class="container">
 
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block">
-                        <img src="https://rubicamp.com/assets/img/logo-dark.png" class="main-logo">
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block">
+                                <img src="https://rubicamp.com/assets/img/logo-dark.png" class="main-logo">
                             </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-title">
+                                        <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                                    </div>
+                                    <hr class="mb-4">
+                                    <form class="user" action="" method="post">
 
-                            <form class="user" action="" method="post">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user" id="name"
+                                                name="name" placeholder="Name">
+                                        </div>
 
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="name" name="name"
-                                        placeholder="Name">
+                                        <div class="form-group">
+                                            <input type="email" class="form-control form-control-user" id="email"
+                                                name="email" placeholder="Email Address">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user" id="password"
+                                                name="password" placeholder="Password">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <select class="form-control" id="role" name="role"
+                                                style="border-radius: 50px; height: 47px; font-size: 12.5px;">
+                                                <option value="" hidden selected>Choose Role</option>
+                                                <option value="Admin">Admin</option>
+                                                <option value="Operator">Operator</option>
+                                            </select>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Register Account
+                                        </button>
+                                        <br>
+                                        <%- include('./partials/alert') %>
+
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <p class="small" href="forgot-password.html">Already have an account? <a
+                                                href="/">Login!</a></p>
+                                    </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="email" name="email"
-                                        placeholder="Email Address">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="password" class="form-control form-control-user"
-                                            id="password" name="password" 
-                                            placeholder="Password">
-                                </div>
-
-                                <div class="form-group">
-                                    <select class="form-control" id="role" name="role" 
-                                    style="border-radius: 50px; height: 47px; font-size: 12.5px;">
-                                        <option value="" hidden selected>Choose Role</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="Operator">Operator</option>
-                                      </select>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                    Register Account
-                                </button>
-                                <br>
-                                <%- include('./partials/alert') %>
-                                          
-                            </form>
-                            <hr>
-                            <div class="text-center">
-                                <p class="small" href="forgot-password.html">Already have an account? <a href="/">Login!</a></p>
                             </div>
                         </div>
                     </div>

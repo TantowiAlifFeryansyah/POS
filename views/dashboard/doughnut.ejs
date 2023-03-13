@@ -13,18 +13,18 @@
             },
             url: 'dashboard/dougnat'
         }).done((res) => {
-            const { direct, customer } = res
+            const { general, members } = res
             const chartDougnut = $('#myDoughnutChart');
             new Chart(chartDougnut, {
                     type: 'doughnut',
                     data: {
                         labels: [
-                            'Direct', 'Customer'
+                            'General', 'Members'
                         ],
                         datasets: [
                             {
                                 data: [
-                                    direct, customer
+                                    general, members
                                 ],
                                 backgroundColor: [
                                     '#4e73df', '#1cc88a'

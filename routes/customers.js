@@ -5,18 +5,22 @@ const { isLoggedIn } = require('../helpers/util')
 /* GET home page. */
 module.exports = function (db) {
   router.get('/', isLoggedIn, function (req, res, next) {
-    res.render('customers/list', {user: req.session.user, currentPage: 'POS - Customers'});
+    res.render('customers/list', { user: req.session.user, currentPage: 'POS - Customers' });
   });
 
   router.get('/datatable', async (req, res) => {
     let params = []
 
-    if(req.query.search.value){
-        params.push(`name ilike '%${req.query.search.value}%'`)
+    if (req.query.search.value) {
+      params.push(`name ilike '%${req.query.search.value}%'`)
     }
 
-    if(req.query.search.value){
+    if (req.query.search.value) {
       params.push(`address ilike '%${req.query.search.value}%'`)
+    }
+
+    if (req.query.search.value) {
+      params.push(`phone ilike '%${req.query.search.value}%'`)
     }
 
     const limit = req.query.length
@@ -27,16 +31,16 @@ module.exports = function (db) {
     const total = await db.query(`select count(*) as total from customers${params.length > 0 ? ` where ${params.join(' or ')}` : ''}`)
     const data = await db.query(`select * from customers${params.length > 0 ? ` where ${params.join(' or ')}` : ''} order by ${sortBy} ${sortMode} limit ${limit} offset ${offset} `)
     const response = {
-        "draw": Number(req.query.draw),
-        "recordsTotal": total.rows[0].total,
-        "recordsFiltered": total.rows[0].total,
-        "data": data.rows
-      }
+      "draw": Number(req.query.draw),
+      "recordsTotal": total.rows[0].total,
+      "recordsFiltered": total.rows[0].total,
+      "data": data.rows
+    }
     res.json(response)
-})
+  })
 
   router.get('/add', isLoggedIn, function (req, res, next) {
-    res.render('customers/add', {user: req.session.user, currentPage: 'POS - Customers'});
+    res.render('customers/add', { user: req.session.user, currentPage: 'POS - Customers' });
   });
 
   router.post('/add', isLoggedIn, async function (req, res, next) {
@@ -48,16 +52,16 @@ module.exports = function (db) {
       return res.redirect('/customers/add')
     }
   });
-  
+
   router.get('/edit', isLoggedIn, function (req, res, next) {
-    res.render('customers/edit', {user: req.session.user, currentPage: 'POS - Customers'});
+    res.render('customers/edit', { user: req.session.user, currentPage: 'POS - Customers' });
   });
 
   router.get('/edit/:customerid', isLoggedIn, async function (req, res, next) {
     try {
       const index = req.params.customerid
-      const {rows: dataedit} = await db.query("SELECT * FROM customers WHERE customerid = $1", [index])
-      res.render('customers/edit', {data: dataedit[0], user: req.session.user, currentPage: 'POS - Customers'})
+      const { rows: dataedit } = await db.query("SELECT * FROM customers WHERE customerid = $1", [index])
+      res.render('customers/edit', { data: dataedit[0], user: req.session.user, currentPage: 'POS - Customers' })
     } catch (error) {
       console.log(error);
       res.send(error)

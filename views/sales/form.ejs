@@ -66,7 +66,7 @@
       
                                   <div class="col-md-4 mt-3">
                                     <label for="sellingprice" class="form-label">Selling Price</label>
-                                    <input type="text" class="form-control" id="sellingprice" name="sellingprice">
+                                    <input type="text" class="form-control" id="sellingprice" name="sellingprice" readonly>
                                 </div>
       
                                 <div class="col-md-4 mt-3">
@@ -76,7 +76,7 @@
       
                                 <div class="col-md-4 mt-3">
                                     <label for="totalprice" class="form-label">Total Price</label>
-                                    <input type="text" class="form-control" id="totalprice" name="totalprice">
+                                    <input type="text" class="form-control" id="totalprice" name="totalprice" readonly>
                                 </div>
       
                                 <div class="col-md-4">
@@ -144,7 +144,7 @@
                               <div class="row mb-3">
                                 <label for="customer" class="col-sm-2 col-form-label">Customer</label>
                                 <div class="col-sm-10">
-                                  <select class="form-control" id="customer" name="customer">
+                                  <select class="form-control" id="customer" name="customer" required>
                                     <option value="" selected disable hidden required>
                                       <%= sales.name ? sales.name : 'choose a customer'%> 
                                     </option>
@@ -236,7 +236,7 @@
                       data.forEach((item, index) => {
                         html += `
                         <tr>
-                           <td> ${item.id} </td>
+                           <td> ${index + 1} </td>
                            <td> ${item.itemcode} </td>
                            <td> ${item.name} </td>
                            <td> ${item.quantity} </td>
