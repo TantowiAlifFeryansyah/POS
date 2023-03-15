@@ -124,7 +124,6 @@ module.exports = function (db) {
         const { rows: salesget } = await db.query(`SELECT to_char(time, 'Mon YY') AS bulan, to_char(time, 'YY-MM') AS tanggal, sum(totalsum) AS jumlahsales From sales WHERE time >= $1 GROUP BY bulan, tanggal ORDER BY tanggal`, [startdate])
         searchSales = salesget
       } else if (enddate != '') {
-        totalsales
         const { rows: purchasesget } = await db.query(`SELECT to_char(time, 'Mon YY') AS bulan, to_char(time, 'YY-MM') AS tanggal, sum(totalsum) AS jumlahpurchases From purchases WHERE time <= $1 GROUP BY bulan, tanggal ORDER BY tanggal`, [enddate])
         searchPurchase = purchasesget
         const { rows: salesget } = await db.query(`SELECT to_char(time, 'Mon YY') AS bulan, to_char(time, 'YY-MM') AS tanggal, sum(totalsum) AS jumlahsales From sales WHERE time <= $1 GROUP BY bulan, tanggal ORDER BY tanggal`, [enddate])
