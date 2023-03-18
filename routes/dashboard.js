@@ -142,7 +142,6 @@ module.exports = function (db) {
       let hasil = []
       let bulan = []
 
-
       total.forEach(item => {
         if (data[item.bulan]) {
           data[item.bulan] = { monthly: item.bulan, expense: item.jumlahpurchases ? item.jumlahpurchases : data[item.bulan].expense, revenue: item.jumlahsales ? item.jumlahsales : data[item.bulan].revenue }
