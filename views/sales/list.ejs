@@ -62,6 +62,8 @@
 
                  $(document).ready(function () {
             $('#salestable').DataTable({
+                scrollX: true,
+                "order": [[1, 'desc']],
                 "lengthMenu": [[3, 10, 100], [3, 10, "All"]],
                 "processing": true,
                 "serverSide": true,
